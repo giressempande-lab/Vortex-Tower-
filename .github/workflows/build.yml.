@@ -1,0 +1,29 @@
+
+name: Build VORTEX APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Télécharger le code
+        uses: actions/checkout@v4
+
+      - name: Construire le fichier APK
+        uses: ArtemSBulgakov/buildozer-action@v1
+        id: buildozer
+        with:
+          buildozer_version: stable
+
+      - name: Récupérer le fichier APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: VORTEX-APK
+          path: ${{ steps.buildozer.outputs.filename }}
+          
